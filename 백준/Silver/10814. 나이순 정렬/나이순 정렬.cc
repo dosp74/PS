@@ -15,11 +15,11 @@ int main() {
         v.push_back({age, name});
     }
     
-    stable_sort(v.begin(), v.end(), [](pair<int, string> a, pair<int, string> b) {
+    stable_sort(v.begin(), v.end(), [](const pair<int, string>& a, const pair<int, string>& b) {
         return a.first < b.first;
     });
     
-    for (auto p : v)
+    for (const auto& p : v)
         cout << p.first << " " << p.second << "\n";
     
     return 0;
