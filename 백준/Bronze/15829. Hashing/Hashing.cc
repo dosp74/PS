@@ -2,25 +2,21 @@
 #include <string>
 using namespace std;
 
+const int M = 1234567891;
+const int R = 31;
+
 int main() {
     int L;
     string str;
     cin >> L >> str;
     
     long long result = 0;
+    long long pow_r = 1;
     
     for (int i = 0; i < L; i++) {
-        char temp = str[i];
-        temp = temp - 'a' + 1;
-        
-        int r = 1;
-        int exp = i == 0 ? 1 : i;
-        
-        for (int j = 0; j < i; j++) {
-            r *= 31;
-        }
-        
-        result += (int)temp * r;
+        int temp = str[i] - 'a' + 1;
+        result = (result + temp * pow_r % M) % M;
+        pow_r = (pow_r * R) % M;
     }
     
     cout << result;
