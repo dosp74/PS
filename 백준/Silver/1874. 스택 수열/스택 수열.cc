@@ -10,11 +10,9 @@ int main() {
     int n;
     cin >> n;
     
-    vector<int> S;
+    vector<int> S(n);
     for (int i = 0; i < n; i++) {
-        int number;
-        cin >> number;
-        S.push_back(number);
+        cin >> S[i];
     }
     
     stack<int> s;
@@ -22,21 +20,12 @@ int main() {
     int index = 0;
     
     for (int i = 1; i <= n; i++) {
+        s.push(i);
+        operators.push_back('+');
+        
         while (!s.empty() && s.top() == S[index]) {
             s.pop();
             operators.push_back('-');
-            index++;
-        }
-        
-        s.push(i);
-        operators.push_back('+');
-    }
-    
-    while (!s.empty() && s.top() == S[index]) {
-        s.pop();
-        operators.push_back('-');
-        
-        if (index != n) {
             index++;
         }
     }
@@ -47,8 +36,8 @@ int main() {
         return 0;
     }
     
-    for (int i = 0; i < operators.size(); i++) {
-        cout << operators[i] << "\n";
+    for (char op : operators) {
+        cout << op << "\n";
     }
     
     return 0;
