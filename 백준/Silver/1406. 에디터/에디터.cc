@@ -5,7 +5,10 @@
 using namespace std;
 
 int main() {
-    string str; // str.length == N
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    string str; // str.length() == N
     cin >> str;
     
     list<char> editor;
