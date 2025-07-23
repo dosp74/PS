@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <list>
-#include <stack>
 using namespace std;
 
 int main() {
@@ -11,11 +10,7 @@ int main() {
     string str; // str.length() == N
     cin >> str;
     
-    list<char> editor;
-    
-    for (int i = 0; i < str.length(); i++) {
-        editor.push_back(str[i]);
-    }
+    list<char> editor(str.begin(), str.end());
     
     int M;
     cin >> M;
