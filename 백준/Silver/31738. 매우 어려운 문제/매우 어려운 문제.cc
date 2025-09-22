@@ -15,7 +15,7 @@ int main() {
     }
     
     long long result = 1;
-    for (long long i = 1; i <= N; i++) {
+    for (long long i = 2; i <= N; i++) {
         result = (result * i) % M;
     }
     
