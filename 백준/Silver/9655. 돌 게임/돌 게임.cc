@@ -8,7 +8,7 @@ int main() {
     int N;
     cin >> N;
     
-    if (N % 4 == 0 || N % 4 == 2) {
+    if (N % 2 == 0) {
         cout << "CY";
     }
     else {
