@@ -8,16 +8,20 @@ int main() {
     int N, K;
     cin >> N >> K;
     
-    vector<int> temperatures(N + 1), prefix(N + 1, 0);
-    for (int i = 1; i <= N; i++) {
-        cin >> temperatures[i];
-        prefix[i] = prefix[i - 1] + temperatures[i];
+    vector<int> temp(N);
+    for (int i = 0; i < N; i++) {
+        cin >> temp[i];
     }
     
-    int max_sum = INT_MIN;
-    for (int i = K; i <= N; i++) {
-        int current_sum = prefix[i] - prefix[i - K];
-        max_sum = max(max_sum, current_sum);
+    int window_sum = 0;
+    for (int i = 0; i < K; i++) {
+        window_sum += temp[i];
+    }
+    
+    int max_sum = window_sum;
+    for (int i = K; i < N; i++) {
+        window_sum += temp[i] - temp[i - K]; // 슬라이딩 윈도우
+        max_sum = max(max_sum, window_sum);
     }
     
     cout << max_sum;
