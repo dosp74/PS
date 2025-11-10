@@ -25,28 +25,19 @@ int main() {
             isPlus = false;
         }
         
-        if (isPlus && isdigit(formula[i])) {
+        if (isdigit(formula[i])) {
             int currentIndex = i;
             
             while (isdigit(formula[currentIndex + 1])) {
                 currentIndex++;
             }
             
-            plusNumber.push_back(stoi(formula.substr(i, currentIndex - i + 1)));
-            
-            i = currentIndex;
-            
-            continue;
-        }
-        
-        if (!isPlus && isdigit(formula[i])) {
-            int currentIndex = i;
-            
-            while (isdigit(formula[currentIndex + 1])) {
-                currentIndex++;
+            if (isPlus) {
+                plusNumber.push_back(stoi(formula.substr(i, currentIndex - i + 1)));
             }
-            
-            minusNumber.push_back(stoi(formula.substr(i, currentIndex - i + 1)));
+            else {
+                minusNumber.push_back(stoi(formula.substr(i, currentIndex - i + 1)));
+            }
             
             i = currentIndex;
         }
