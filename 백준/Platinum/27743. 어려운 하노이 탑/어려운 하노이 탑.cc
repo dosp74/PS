@@ -35,6 +35,10 @@ int main() {
         answer = (M * (temp - 2) - 1) % MOD;
     }
     
+    if (answer < 0) {
+        answer += MOD;
+    }
+    
     cout << answer;
     
     return 0;
