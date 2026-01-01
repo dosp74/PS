@@ -49,7 +49,8 @@ int main() {
         }
     }
     
-    solve(0, 0);
+    picked[0] = true;
+    solve(1, 1);
     
     cout << minValue;
     
