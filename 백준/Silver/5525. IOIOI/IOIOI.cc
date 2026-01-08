@@ -9,31 +9,25 @@ int main() {
     string S;
     cin >> N >> M >> S;
     
-    string pn = "I";
-    for (int i = 0; i < N; i++) {
-        pn += "OI";
-    }
+    int answer = 0;
+    int cnt = 0; // 연속된 IOI 개수
     
-    int cnt = 0;
-    
-    for (int i = 0; i < M; i++) {
-        bool isPN = true;
-        int temp = i;
-        
-        for (int j = 0; j < pn.length(); j++) {
-            if (S[temp++] != pn[j]) {
-                isPN = false;
-                
-                break;
-            }
-        }
-        
-        if (isPN) {
+    for (int i = 1; i < M - 1; i++) {
+        if (S[i - 1] == 'I' && S[i] == 'O' && S[i + 1] == 'I') {
             cnt++;
+            
+            if (cnt >= N) {
+                answer++;
+            }
+            
+            i++; // 다음 I로 이동
+        }
+        else {
+            cnt = 0;
         }
     }
     
-    cout << cnt;
+    cout << answer;
     
     return 0;
 }
