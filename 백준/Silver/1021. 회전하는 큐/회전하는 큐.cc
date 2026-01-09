@@ -13,66 +13,32 @@ int main() {
         dq.push_back(i);
     }
     
-    vector<int> v;
-    for (int i = 1; i <= M; i++) {
-        int number;
-        cin >> number;
-        v.push_back(number);
-    }
-    
     int cnt = 0;
     
-    for (int n : v) {
-        if (dq.front() == n) {
-            dq.pop_front();
-            
-            continue;
+    while (M--) {
+        int target;
+        cin >> target;
+        
+        int idx = 0;
+        while (dq[idx] != target) {
+            idx++;
         }
         
-        int idx;
+        int left = idx;
+        int right = dq.size() - idx;
         
-        for (int i = 0; i < dq.size(); i++) {
-            if (dq[i] == n) {
-                idx = i + 1;
-                
-                break;
-            }
-        }
-        
-        if (dq.size() % 2 == 0) {
-            if (idx > (dq.size() / 2)) {
-                while (dq.front() != n) {
-                    int temp = dq.back();
-                    dq.push_front(temp);
-                    dq.pop_back();
-                    cnt++;
-                }
-            }
-            else {
-                while (dq.front() != n) {
-                    int temp = dq.front();
-                    dq.push_back(temp);
-                    dq.pop_front();
-                    cnt++;
-                }
+        if (left <= right) {
+            while (left--) {
+                dq.push_back(dq.front());
+                dq.pop_front();
+                cnt++;
             }
         }
         else {
-            if (idx <= (dq.size() / 2) + 1) {
-                while (dq.front() != n) {
-                    int temp = dq.front();
-                    dq.push_back(temp);
-                    dq.pop_front();
-                    cnt++;
-                }
-            }
-            else {
-                while (dq.front() != n) {
-                    int temp = dq.back();
-                    dq.push_front(temp);
-                    dq.pop_back();
-                    cnt++;
-                }
+            while (right--) {
+                dq.push_front(dq.back());
+                dq.pop_back();
+                cnt++;
             }
         }
         
