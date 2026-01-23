@@ -14,7 +14,7 @@ int main() {
         cin >> v[i];
     }
     
-    stable_sort(v.begin(), v.end());
+    sort(v.begin(), v.end());
     
     for (int i = 0; i < N; i++) {
         cout << v[i] << "\n";
