@@ -23,7 +23,6 @@ int main() {
     int answerTime = 1e9;
     int answerHeight = 0;
     
-    // 브루트포스
     for (int target = minHeight; target <= maxHeight; target++) {
         long long removeBlock = 0;
         long long addBlock = 0;
