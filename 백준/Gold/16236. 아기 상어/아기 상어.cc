@@ -67,10 +67,6 @@ FishInfo bfs(int x, int y, int size) {
     }
     
     sort(fishes.begin(), fishes.end(), [](FishInfo a, FishInfo b) {
-        if (a.dist != b.dist) {
-            return a.dist < b.dist;
-        }
-        
         if (a.x == b.x) {
             return a.y < b.y;
         }
