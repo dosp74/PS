@@ -21,10 +21,17 @@ FishInfo bfs(int x, int y, int size) {
     visited[x][y] = true;
     q.push({x, y, 0});
     
+    int minValue = INT_MAX;
+    
     while (!q.empty()) {
         int cx = q.front().x;
         int cy = q.front().y;
         int cc = q.front().dist;
+        
+        if (minValue < cc + 1) {
+            break;
+        }
+        
         q.pop();
         
         for (int i = 0; i < 4; i++) {
@@ -48,6 +55,7 @@ FishInfo bfs(int x, int y, int size) {
                 visited[nx][ny] = true;
                 q.push({nx, ny, nc});
                 fishes.push_back({nx, ny, nc});
+                minValue = nc;
             }
         }
     }
