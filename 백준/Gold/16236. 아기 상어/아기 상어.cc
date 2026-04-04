@@ -15,11 +15,10 @@ struct FishInfo {
 
 vector<FishInfo> fishes;
 
-// 먹을 수 있는 물고기 찾기
 FishInfo bfs(int x, int y, int size) {
     queue<FishInfo> q;
-    visited[x][y] = true;
     q.push({x, y, 0});
+    visited[x][y] = true;
     
     int minValue = INT_MAX;
     
@@ -28,11 +27,11 @@ FishInfo bfs(int x, int y, int size) {
         int cy = q.front().y;
         int cc = q.front().dist;
         
+        q.pop();
+        
         if (minValue < cc + 1) {
             break;
         }
-        
-        q.pop();
         
         for (int i = 0; i < 4; i++) {
             int nx = cx + dx[i];
@@ -43,17 +42,17 @@ FishInfo bfs(int x, int y, int size) {
                 continue;
             }
             
-            if (size < board[nx][ny]) {
+            if (board[nx][ny] > size) {
                 continue;
             }
             
-            if (board[nx][ny] == 0 || size == board[nx][ny]) {
-                visited[nx][ny] = true;
+            if (board[nx][ny] == 0 || board[nx][ny] == size) {
                 q.push({nx, ny, nc});
+                visited[nx][ny] = true;
             }
             else { // 먹을 수 있는 물고기인 경우
-                visited[nx][ny] = true;
                 q.push({nx, ny, nc});
+                visited[nx][ny] = true;
                 fishes.push_back({nx, ny, nc});
                 minValue = nc;
             }
@@ -82,12 +81,10 @@ int main() {
     cin.tie(nullptr);
     
     cin >> N;
+    
     board.resize(N, vector<int>(N));
     
     int sharkX, sharkY;
-    int sharkSize = 2;
-    int eatCnt = 0;
-    int answer = 0;
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
@@ -100,6 +97,10 @@ int main() {
             }
         }
     }
+    
+    int sharkSize = 2;
+    int eatCnt = 0;
+    int answer = 0;
     
     while (true) {
         for (int i = 0; i < 20; i++) {
