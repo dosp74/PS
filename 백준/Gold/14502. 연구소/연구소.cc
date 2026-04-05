@@ -2,23 +2,25 @@
 using namespace std;
 
 int N, M;
-int graph[8][8];
+vector<vector<int>> board;
 bool visited[8][8];
 vector<pair<int, int>> wall, virus;
 int dx[4] = {0, 0, -1, 1}; // 좌우상하
 int dy[4] = {-1, 1, 0, 0};
 
-void dfs(int x, int y) {
+void spread(int x, int y) {
     for (int i = 0; i < 4; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
         
-        if (nx < 0 || nx >= N || ny < 0 || ny >= M || visited[nx][ny] || graph[nx][ny] == 1) {
+        if (nx < 0 || nx >= N || ny < 0 || ny >= M || visited[nx][ny]) {
             continue;
         }
         
-        visited[nx][ny] = true;
-        dfs(nx, ny);
+        if (board[nx][ny] != 1) {
+            visited[nx][ny] = true;
+            spread(nx, ny);
+        }
     }
 }
 
@@ -31,14 +33,14 @@ int cal() {
         }
     }
     
-    for (pair<int, int> vir : virus) {
-        visited[vir.first][vir.second] = true;
-        dfs(vir.first, vir.second);
+    for (const auto& p : virus) {
+        visited[p.first][p.second] = true;
+        spread(p.first, p.second);
     }
     
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            if (graph[i][j] == 0 && !visited[i][j]) {
+            if (board[i][j] == 0 && !visited[i][j]) {
                 cnt++;
             }
         }
@@ -53,39 +55,39 @@ int main() {
     
     cin >> N >> M;
     
+    board.resize(N, vector<int>(M, 0));
+    
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            cin >> graph[i][j];
+            cin >> board[i][j];
             
-            if (graph[i][j] == 0) { // 벽을 세울 수 있는 좌표이면
+            if (board[i][j] == 0) { // 벽을 세울 수 있는 위치
                 wall.push_back({i, j});
             }
             
-            if (graph[i][j] == 2) {
+            if (board[i][j] == 2) {
                 virus.push_back({i, j});
             }
         }
     }
     
-    int maxSafeArea = 0;
+    int answer = 0;
     
-    for (int k = 0; k < wall.size(); k++) { // 벽을 세울 수 있는 모든 좌표에 대해
-        for (int i = 0; i < k; i++) {
-            for (int j = 0; j < i; j++) {
-                graph[wall[k].first][wall[k].second] = 1;
-                graph[wall[i].first][wall[i].second] = 1;
-                graph[wall[j].first][wall[j].second] = 1;
-                
-                maxSafeArea = max(maxSafeArea, cal());
-                
-                graph[wall[k].first][wall[k].second] = 0;
-                graph[wall[i].first][wall[i].second] = 0;
-                graph[wall[j].first][wall[j].second] = 0;
+    for (int i = 0; i < wall.size(); i++) {
+        for (int j = i + 1; j < wall.size(); j++) {
+            for (int k = j + 1; k < wall.size(); k++) {
+                board[wall[i].first][wall[i].second] = 1;
+                board[wall[j].first][wall[j].second] = 1;
+                board[wall[k].first][wall[k].second] = 1;
+                answer = max(answer, cal());
+                board[wall[i].first][wall[i].second] = 0;
+                board[wall[j].first][wall[j].second] = 0;
+                board[wall[k].first][wall[k].second] = 0;
             }
         }
     }
     
-    cout << maxSafeArea;
+    cout << answer;
     
     return 0;
 }
