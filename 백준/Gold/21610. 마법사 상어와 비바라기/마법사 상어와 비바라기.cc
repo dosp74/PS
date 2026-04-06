@@ -85,19 +85,15 @@ int main() {
         }
         
         // 5. 물의 양이 2 이상인 모든 칸에 구름이 생김
+        bool wasCloud[50][50] = { false };
+        
+        for (auto& p : checkRainCloudsList) {
+            wasCloud[p.first][p.second] = true;
+        }
+        
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                bool pass = false;
-                
-                for (auto& p : checkRainCloudsList) {
-                    if (i == p.first && j == p.second) {
-                        pass = true;
-                        
-                        break;
-                    }
-                }
-                
-                if (pass) {
+                if (wasCloud[i][j]) {
                     continue;
                 }
                 
