@@ -2,48 +2,46 @@
 using namespace std;
 
 int N;
-vector<int> sequence;
-int op[4];
-int maxValue = INT_MIN;
+vector<int> A;
+int op[4]; // 0: +, 1: -, 2: *, 3: /
 int minValue = INT_MAX;
+int maxValue = INT_MIN;
 
-void dfs(int i, int currentValue) {
-    if (i == N) {
-        maxValue = max(currentValue, maxValue);
-        minValue = min(minValue, currentValue);
+void dfs(int idx, int curValue) {
+    if (idx == A.size() - 1) {
+        minValue = min(curValue, minValue);
+        maxValue = max(curValue, maxValue);
         
         return;
     }
     else {
-        for (int j = 0; j < 4; j++) {
-            if (op[j] <= 0) {
+        for (int i = 0; i < 4; i++) {
+            if (op[i] == 0) {
                 continue;
             }
             
-            op[j]--;
+            op[i]--;
             
             int nextValue;
             
-            if (j == 0) {
-                nextValue = currentValue + sequence[i];
-            }
-            else if (j == 1) {
-                nextValue = currentValue - sequence[i];
-            }
-            else if (j == 2) {
-                nextValue = currentValue * sequence[i];
-            }
-            else {
-                if (currentValue < 0) {
-                    nextValue = -(abs(currentValue) / sequence[i]);
-                }
-                else {
-                    nextValue = currentValue / sequence[i];
-                }
+            if (i == 0) { // +
+                nextValue = curValue + A[idx + 1];
             }
             
-            dfs(i + 1, nextValue);
-            op[j]++;
+            if (i == 1) { // -
+                nextValue = curValue - A[idx + 1];
+            }
+            
+            if (i == 2) { // *
+                nextValue = curValue * A[idx + 1];
+            }
+            
+            if (i == 3) { // /
+                nextValue = curValue < 0 ? (abs(curValue) / A[idx + 1]) * (-1) : curValue /= A[idx + 1];
+            }
+            
+            dfs(idx + 1, nextValue);
+            op[i]++;
         }
     }
 }
@@ -52,17 +50,19 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     
+    int N;
     cin >> N;
-    sequence.resize(N);
+    A.resize(N);
+    
     for (int i = 0; i < N; i++) {
-        cin >> sequence[i];
+        cin >> A[i];
     }
     
     for (int i = 0; i < 4; i++) {
         cin >> op[i];
     }
     
-    dfs(1, sequence[0]);
+    dfs(0, A[0]);
     
     cout << maxValue << "\n" << minValue;
     
