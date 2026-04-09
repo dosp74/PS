@@ -31,83 +31,31 @@ void rotate(int num, int dir) {
     int leftGear[5] = {0, gear[1][6], gear[2][6], gear[3][6], gear[4][6]};
     int rightGear[5] = {0, gear[1][2], gear[2][2], gear[3][2], gear[4][2]};
     
-    // num번 톱니바퀴를 dir 방향으로 회전
-    if (num == 1) {
-        // 서로 달라야 둘 다 회전
-        if (rightGear[1] != leftGear[2]) {
-            sync(1, dir); sync(2, -dir);
-            
-            if (rightGear[2] != leftGear[3]) {
-                sync(3, dir);
-                
-                if (rightGear[3] != leftGear[4]) {
-                    sync(4, -dir);
-                }
-            }
+    int info[5] = { 0 }; // 0: 회전 X, 1: 시계 방향 회전, -1: 반시계 방향 회전
+    info[num] = dir;
+    
+    // 왼쪽
+    for (int i = num; i > 1; i--) {
+        if (leftGear[i] != rightGear[i - 1]) {
+            info[i - 1] = -info[i];
         }
         else {
-            sync(1, dir);
+            break;
         }
     }
-    else if (num == 2) {
-        if (leftGear[2] != rightGear[1]) {
-            sync(2, dir); sync(1, -dir);
-            
-            if (rightGear[2] != leftGear[3]) {
-                sync(3, -dir);
-                
-                if (rightGear[3] != leftGear[4]) {
-                    sync(4, dir);
-                }
-            }
+    
+    // 오른쪽
+    for (int i = num; i < 4; i++) {
+        if (rightGear[i] != leftGear[i + 1]) {
+            info[i + 1] = -info[i];
         }
         else {
-            sync(2, dir);
-            
-            if (rightGear[2] != leftGear[3]) {
-                sync(3, -dir);
-                
-                if (rightGear[3] != leftGear[4]) {
-                    sync(4, dir);
-                }
-            }
+            break;
         }
     }
-    else if (num == 3) {
-        if (leftGear[3] != rightGear[2]) {
-            sync(3, dir); sync(2, -dir);
-            
-            if (leftGear[2] != rightGear[1]) {
-                sync(1, dir);
-            }
-            
-            if (rightGear[3] != leftGear[4]) {
-                sync(4, -dir);
-            }
-        }
-        else {
-            sync(3, dir);
-            
-            if (rightGear[3] != leftGear[4]) {
-                sync(4, -dir);
-            }
-        }
-    }
-    else {
-        if (leftGear[4] != rightGear[3]) {
-            sync(4, dir); sync(3, -dir);
-            
-            if (leftGear[3] != rightGear[2]) {
-                sync(2, dir);
-                
-                if (leftGear[2] != rightGear[1]) {
-                    sync(1, -dir);
-                }
-            }
-        }
-        else {
-            sync(4, dir);
-        }
+    
+    for (int i = 1; i <= 4; i++) {
+        sync(i, info[i]);
     }
 }
 
