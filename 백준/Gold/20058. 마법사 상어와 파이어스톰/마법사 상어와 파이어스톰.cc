@@ -8,9 +8,9 @@ int dx[4] = {-1, 0, 1, 0}; // 상우하좌
 int dy[4] = {0, 1, 0, -1};
 
 void rotate(int x, int y, int size, vector<vector<int>>& temp) {
-    for (int i = x; i < x + size; i++) {
-        for (int j = y; j < y + size; j++) {
-            temp[x + (j - y)][y + (size - 1 - (i - x))] = A[i][j];
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            temp[x + j][y + size - i - 1] = A[x + i][y + j];
         }
     }
 }
