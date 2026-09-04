@@ -1,0 +1,9 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = n % 7 != 0 ? n / 7 + 1 : n / 7;
+    
+    return answer;
+}
